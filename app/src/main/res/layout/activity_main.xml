@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/CustomerList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show customers"
+        android:onClick="showCustomerList"
+    />
+
+    <Button
+        android:id="@+id/MenuList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show menus"
+        android:layout_below="@+id/CustomerList"
+        android:onClick="showMenuList"
+        />
+
+    <Button
+        android:id="@+id/MenuAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add menu"
+        android:layout_below="@+id/MenuList"
+        android:onClick="showMenuAdd"
+        />
+
+</RelativeLayout>

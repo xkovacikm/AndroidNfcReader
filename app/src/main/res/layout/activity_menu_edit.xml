@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/menu_id"
+        android:text="Id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/menu_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:layout_below="@+id/menu_id"/>
+    <EditText
+        android:id="@+id/menu_cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cost"
+        android:layout_below="@+id/menu_name"/>
+    <Button
+        android:id="@+id/menu_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save menu"
+        android:layout_below="@+id/menu_cost"
+        android:onClick="editOrAddMenu"
+        />
+    <Button
+        android:id="@+id/menu_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete menu"
+        android:layout_below="@+id/menu_save"
+        android:onClick="deleteMenu"
+        />
+</RelativeLayout>
