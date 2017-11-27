@@ -62,7 +62,7 @@ public class Connection extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put( CUSTOMER_ID, customer.getId() );
+        //values.put( CUSTOMER_ID, customer.getId() );
         values.put( CUSTOMER_CARD_ID, customer.getCard_id() );
         values.put( CUSTOMER_MONEY, customer.getMoney() );
 
@@ -102,8 +102,12 @@ public class Connection extends SQLiteOpenHelper {
                 CUSTOMER_CARD_ID + "=?",
                 new String[] { id }, null, null, null, null);
 
-        if (cursor != null)
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
+        }
+        else{
+            return new Customer();
+        }
 
         Customer customer = new Customer(
                 Integer.parseInt( cursor.getString(0) ),
@@ -269,12 +273,12 @@ public class Connection extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CUSTOMER_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_CUSTOMER + "("
-                + CUSTOMER_ID + " INTEGER PRIMARY KEY NOT NULL," + CUSTOMER_CARD_ID + " TEXT NOT NULL UNIQUE,"
+                + CUSTOMER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + CUSTOMER_CARD_ID + " TEXT NOT NULL UNIQUE,"
                 + CUSTOMER_MONEY + " DOUBLE NOT NULL" + ")";
         db.execSQL(CREATE_CUSTOMER_TABLE);
 
         String CREATE_MENU_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_MENU + "("
-                + MENU_ID + " INTEGER PRIMARY KEY NOT NULL," + MENU_NAME + " TEXT NOT NULL,"
+                + MENU_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + MENU_NAME + " TEXT NOT NULL,"
                 + MENU_COST + " DOUBLE NOT NULL" + ")";
         db.execSQL(CREATE_MENU_TABLE);
     }
