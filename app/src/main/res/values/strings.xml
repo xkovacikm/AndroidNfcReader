@@ -1,9 +1,11 @@
 <resources>
-    <string name="app_name">androidNfc</string>
+    <string name="app_name">Automat NFC</string>
     <string name="message_tag_detected">Prečítaná karta</string>
     <string name="empty_card_number">Nečitateľné číslo karty, skúste znova!</string>
     <string name="deposit_hint_message">Vklad</string>
-    <string name="card_hint_message">Číslo karty</string>
+    <string name="card_hint_message">Číslo karty:</string>
+    <string name="credit_hint_message">Výška kreditu:</string>
     <string name="save_customer">Uložiť zákazníka</string>
+    <string name="putCard">Priložte kartu</string>
 
 </resources>

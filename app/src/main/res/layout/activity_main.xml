@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <!--Button
         android:id="@+id/CustomerList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,6 +27,50 @@
         android:text="Add menu"
         android:layout_below="@+id/MenuList"
         android:onClick="showMenuAdd"
-        />
+        /-->
 
+    <TextView
+        android:id="@+id/cardNummeroTextLabel"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingLeft="10dp"
+        android:text="@string/card_hint_message"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/cardNummeroText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/cardNummeroTextLabel"
+        android:layout_alignBaseline="@+id/cardNummeroTextLabel"
+        android:textSize="18sp"
+        android:text="156465465455"/>
+
+    <TextView
+        android:id="@+id/creditTextLabel"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingLeft="10dp"
+        android:layout_below="@id/cardNummeroTextLabel"
+        android:text="@string/credit_hint_message"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/creditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/creditTextLabel"
+        android:layout_alignBaseline="@+id/creditTextLabel"
+        android:textSize="18sp"
+        android:text="35€"/>
+
+    <ListView
+        android:id="@+id/foodList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/creditTextLabel">
+
+    </ListView>
 </RelativeLayout>

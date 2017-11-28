@@ -1,8 +1,8 @@
 package com.example.demeterovci.androidnfc;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,11 +35,11 @@ public class CustomerAddActivity extends AppCompatActivity {
         String depositStr = deposit_input.getText().toString();
         double deposit;
 
-        if(card_number == null){
+        if(card_number.isEmpty()){
             Toast.makeText(this, getString(R.string.empty_card_number), Toast.LENGTH_SHORT).show();
         }
         else{
-            if(depositStr == null){
+            if(depositStr.isEmpty()){
                 deposit = 0.0;
             }
             else{
@@ -53,8 +53,11 @@ public class CustomerAddActivity extends AppCompatActivity {
             db.addCustomer(customer);
 
             /* @todo Edit user / vyber menu, zatial main activity asi*/
-            startActivity(new Intent(this, MainActivity.class));
-
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("id_card", card_number);
+            startActivity(intent);
+            finish();
         }
     }
 }

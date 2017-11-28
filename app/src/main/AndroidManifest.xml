@@ -2,9 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.demeterovci.androidnfc">
 
+    <uses-sdk android:minSdkVersion="10" />
+
     <uses-permission android:name="android.permission.NFC" />
-    <uses-sdk android:minSdkVersion="10"/>
-    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,18 +21,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MenuEditActivity" />
+        <activity android:name=".CustomerListActivity" />
+        <activity android:name=".CustomerAddActivity" />
+        <activity android:name=".CustomerEditActivity" />
+        <activity android:name=".MenuListActivity" />
+        <activity android:name=".FirstActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuEditActivity" />
-        <activity android:name=".CustomerListActivity" />
-        <activity android:name=".CustomerAddActivity" />
-        <activity android:name=".CustomerEditActivity" />
-        <activity android:name=".MenuListActivity"></activity>
     </application>
 
 </manifest>
