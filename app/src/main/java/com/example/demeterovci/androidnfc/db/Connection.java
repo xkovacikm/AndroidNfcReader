@@ -170,7 +170,6 @@ public class Connection extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put( MENU_ID, menu.getId() );
         values.put( MENU_NAME, menu.getName() );
         values.put( MENU_COST, menu.getCost() );
 

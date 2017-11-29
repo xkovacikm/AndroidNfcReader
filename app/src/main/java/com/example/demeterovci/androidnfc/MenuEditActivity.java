@@ -33,7 +33,6 @@ public class MenuEditActivity extends AppCompatActivity {
 
             newCustomer = false;
 
-            id.setText( intent.getStringExtra("id" ) );
             name.setText( intent.getStringExtra("name") );
             cost.setText( String.valueOf( intent.getStringExtra("cost" ) ) );
 

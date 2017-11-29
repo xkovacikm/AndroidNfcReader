@@ -17,6 +17,12 @@ public class Menu {
         this.cost = cost;
     }
 
+    // constructor
+    public Menu(String name, double cost){
+        this.name = name;
+        this.cost = cost;
+    }
+
     public Menu(){
     }
 
