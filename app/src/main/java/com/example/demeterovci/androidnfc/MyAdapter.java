@@ -25,12 +25,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     public interface Listener{
         void onSelected(Integer string);
         void onDelete(Integer string);
-        void onEdit(Integer string);
+        void onEdit(Integer id, Integer selectedPosition);
     }
 
     public void add(Menu menu){
         data.add(selectedPosition, menu);
         notifyItemInserted(selectedPosition);
+    }
+
+    public void edit(Integer position, Menu menu){
+        data.set(position,menu);
+        notifyItemChanged(position);
     }
 
     @Override
@@ -89,7 +94,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             public void onClick(View v) {
                 selectedPosition = getLayoutPosition();
                 Log.i(TAG, "edit: " + data.get(selectedPosition));
-                listener.onEdit(data.get(selectedPosition).getId());
+                listener.onEdit(data.get(selectedPosition).getId(), selectedPosition);
                 //data.remove(selectedPosition);
                 //notifyItemRemoved(selectedPosition);
             }

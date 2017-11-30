@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Automat NFC</string>
+    <string name="app_name">Bavanier</string>
     <string name="message_tag_detected">Prečítaná karta</string>
     <string name="empty_card_number">Nečitateľné číslo karty, skúste znova!</string>
     <string name="deposit_hint_message">Vklad</string>

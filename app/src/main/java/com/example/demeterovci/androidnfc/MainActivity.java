@@ -29,7 +29,7 @@ import java.util.List;
  * @todo - niesu vypisy ci sa podarilo alebo nie. Ani osetrenia. Ak sa zadaju zle udaje, spadne appka
  * @note - strasne pomaly ide ta appka, asi sa niekde vytvara strasne vela instancii alebo tak - neviem ci moja chyba. Singleton na DB je spraveny
  */
-public class MainActivity extends AppCompatActivity implements Listener{
+public class MainActivity extends AppCompatActivity implements Listener, MenuEditDialogFragment.Listener{
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private NfcAdapter mNfcAdapter;
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements Listener{
     private ListView foodList;
     private RecyclerView recyclerView;
     private MyAdapter myAdapter;
+    private Integer selPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,17 @@ public class MainActivity extends AppCompatActivity implements Listener{
         foodList.setAdapter(adapter);*/
     }
 
+    @Override
+    public void onEdit(Integer id, String name, Float price) {
+        Menu m = db.getMenuById(id);
+        m.setName(name);
+        m.setCost(price);
+
+        db.updateMenu(m);
+
+        myAdapter.edit(selPos, m);
+    }
+
     private class MyAdapterListener implements MyAdapter.Listener{
         @Override
         public void onSelected(Integer data) {
@@ -86,17 +98,21 @@ public class MainActivity extends AppCompatActivity implements Listener{
         }
 
         @Override
-        public void onEdit(Integer data) {
+        public void onEdit(Integer id, Integer selectedPosition) {
             Log.d("myTag", "on edit listener");
-
-            /*Intent intent = new Intent(MainActivity.this, MenuEditDialogFragment.class);
-            intent.putExtra("id", data);
-            startActivity(intent);*/
-
-            showDialog();
-
+            selPos = selectedPosition;
+            showDialog(id);
         }
     }
+
+   /* private class MenuEditDialogListener implements MenuEditDialogFragment.Listener{
+        @Override
+        public void onEdit(Integer id, String name, Float price) {
+
+
+        }
+    }*/
+
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
@@ -132,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements Listener{
         startActivity(intent);
     }
 
-    void showDialog() {
+    void showDialog(Integer id) {
         // DialogFragment.show() will take care of adding the fragment
         // in a transaction.  We also want to remove any currently showing
         // dialog, so make our own transaction and take care of that here.
@@ -143,9 +159,26 @@ public class MainActivity extends AppCompatActivity implements Listener{
         }
         ft.addToBackStack(null);
 
+        Menu tempmenu = db.getMenuById(id);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("name", tempmenu.getName());
+        bundle.putString("price", tempmenu.getCost() + "");
+        bundle.putInt("id", tempmenu.getId());
+
         // Create and show the dialog.
         DialogFragment newFragment = new MenuEditDialogFragment();
+        newFragment.setArguments(bundle);
         newFragment.show(ft,"dialog");
+
+       /* newFragment.getDialog().findViewById(R.id.menu_name_input);
+
+        TextView name_textview = newFragment.getDialog().findViewById(R.id.menu_name_input);
+        TextView price_textview = newFragment.getDialog().findViewById(R.id.menu_price_input);
+
+        name_textview.setText(tempmenu.getName());
+        price_textview.setText(tempmenu.getCost() + "");*/
+
     }
 
     @Override
