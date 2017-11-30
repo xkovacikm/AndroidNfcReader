@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        />
 
     <!--Button
         android:id="@+id/CustomerList"
@@ -36,7 +44,8 @@
         android:paddingTop="16dp"
         android:paddingLeft="10dp"
         android:text="@string/card_hint_message"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:layout_below="@id/my_toolbar"/>
 
     <TextView
         android:id="@+id/cardNummeroText"
@@ -66,11 +75,12 @@
         android:textSize="18sp"
         android:text="35€"/>
 
-    <ListView
-        android:id="@+id/foodList"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
         android:layout_below="@id/creditTextLabel">
 
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 </RelativeLayout>

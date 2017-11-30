@@ -19,4 +19,11 @@
         android:text="@string/putCard"
         android:layout_gravity="center"
         android:textSize="18sp"/>
+    <Button
+        android:id="@+id/hackme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hack Me"
+        android:onClick="loginAsAdmin"
+        />
 </LinearLayout>

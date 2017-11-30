@@ -7,5 +7,14 @@
     <string name="credit_hint_message">Výška kreditu:</string>
     <string name="save_customer">Uložiť zákazníka</string>
     <string name="putCard">Priložte kartu</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="add_credit">Dobiť kredit</string>
+    <string name="logout">Odhlásiť sa</string>
+
+    <string name="menu_edit_dialog_title">Upraviť menu</string>
+    <string name="menu_name">Názov</string>
+    <string name="menu_price">Cena</string>
+    <string name="cancel_button">Zrušiť</string>
+    <string name="save_button">Uložiť</string>
 
 </resources>

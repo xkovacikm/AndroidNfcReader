@@ -7,6 +7,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.demeterovci.androidnfc.db.Connection;
@@ -24,6 +25,7 @@ public class FirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
+        createAndmin();
         initNFC();
     }
 
@@ -76,6 +78,17 @@ public class FirstActivity extends AppCompatActivity {
         }
     }
 
+    private void createAndmin(){
+        if(db.getCustomers().size() == 0){
+            Connection db = new Connection(this);
+            Customer customer = new Customer();
+            customer.setCard_id("0");
+            customer.setMoney(10000);
+            db.addCustomer(customer);
+        }
+
+    }
+
     private void initNFC(){
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
     }
@@ -105,5 +118,12 @@ public class FirstActivity extends AppCompatActivity {
         for (byte b : barray)
             iarray[i++] = b & 0xff;
         return Arrays.toString(iarray).replace("[", "").replace("]", "").replace(", ", "");
+    }
+
+    public void loginAsAdmin(View view) {
+        Intent showOffer = new Intent(this, MainActivity.class);
+
+        showOffer.putExtra("id_card", "0");
+        startActivity(showOffer);
     }
 }
