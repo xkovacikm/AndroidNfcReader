@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="24dp"
                 android:paddingLeft="16dp"
+                android:textColor="@android:color/white"
                 android:text="@string/card_hint_message"
                 android:textSize="18sp"
                 android:layout_below="@id/my_toolbar"/>
@@ -46,6 +47,7 @@
                 android:layout_toRightOf="@id/cardNummeroTextLabel"
                 android:layout_alignBaseline="@+id/cardNummeroTextLabel"
                 android:textSize="18sp"
+                android:textColor="@android:color/white"
                 android:text="156465465455"/>
 
             <TextView
@@ -56,6 +58,7 @@
                 android:paddingLeft="16dp"
                 android:paddingBottom="24dp"
                 android:layout_below="@id/cardNummeroTextLabel"
+                android:textColor="@android:color/white"
                 android:text="@string/credit_hint_message"
                 android:textSize="18sp"/>
 
@@ -66,6 +69,7 @@
                 android:layout_toRightOf="@id/creditTextLabel"
                 android:layout_alignBaseline="@+id/creditTextLabel"
                 android:textSize="18sp"
+                android:textColor="@android:color/white"
                 android:text="35€"/>
 
         </RelativeLayout>

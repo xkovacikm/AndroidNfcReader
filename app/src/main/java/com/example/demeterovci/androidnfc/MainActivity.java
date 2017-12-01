@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         cardNummeroText.setText(customer.getCard_id());
         creditText.setText(customer.getMoney() + "€");
 
-        db.addMenu(new Menu(1, "Dobrota od mamky", 1.30));
+        //db.addMenu(new Menu(1, "Dobrota od mamky", 1.30));
         //foodList = findViewById(R.id.foodList);
         List<Menu> jedla = db.getMenus();
 

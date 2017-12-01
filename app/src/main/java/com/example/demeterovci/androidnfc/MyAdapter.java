@@ -29,8 +29,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     }
 
     public void add(Menu menu){
-        data.add(selectedPosition, menu);
-        notifyItemInserted(selectedPosition);
+        data.add(menu);
+        notifyItemInserted(data.indexOf(menu));
     }
 
     public void edit(Integer position, Menu menu){
@@ -85,6 +85,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             @Override
             public void onClick(View v) {
                 selectedPosition = getLayoutPosition();
+                if(selectedPosition < 0 )
+                    return;
                 Log.i(TAG, "delete: " + data.get(selectedPosition));
                 listener.onDelete(data.get(selectedPosition).getId());
                 data.remove(selectedPosition);

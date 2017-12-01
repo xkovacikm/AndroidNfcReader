@@ -39,7 +39,7 @@ public class MenuAddDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_edit_menu, null);
+        View view = inflater.inflate(R.layout.dialog_add_menu, null);
 
         builder.setView(view)
                 .setPositiveButton(R.string.save_button, new MenuAddDialogFragment.Adder())
