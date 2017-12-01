@@ -11,10 +11,15 @@
     <string name="add_credit">Dobiť kredit</string>
     <string name="logout">Odhlásiť sa</string>
 
+
+    <string name="menu_add_dialog_title">Pridať menu</string>
     <string name="menu_edit_dialog_title">Upraviť menu</string>
     <string name="menu_name">Názov</string>
     <string name="menu_price">Cena</string>
     <string name="cancel_button">Zrušiť</string>
     <string name="save_button">Uložiť</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

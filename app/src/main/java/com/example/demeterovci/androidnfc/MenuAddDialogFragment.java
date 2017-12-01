@@ -12,29 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.demeterovci.androidnfc.db.Connection;
 import com.example.demeterovci.androidnfc.db.Menu;
 
+public class MenuAddDialogFragment extends DialogFragment {
 
-/**
- * Created by maria on 30.11.17.
- */
-
-public class MenuEditDialogFragment extends DialogFragment {
-
-    private MenuEditDialogFragment.Listener callback;
-    private String name;
-    private String price;
-    private Integer id;
+    private MenuAddDialogFragment.Listener callback;
 
     private TextView name_textview;
     private TextView price_textview;
-    private Connection db = new Connection(getActivity());
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        callback = (MenuEditDialogFragment.Listener) context;
+        callback = (MenuAddDialogFragment.Listener) context;
     }
 
     @Nullable
@@ -48,42 +38,35 @@ public class MenuEditDialogFragment extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        name = getArguments().getString("name");
-        price = getArguments().getString("price");
-        id=getArguments().getInt("id");
-
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_edit_menu, null);
 
         builder.setView(view)
-                .setPositiveButton(R.string.save_button, new Editer())
+                .setPositiveButton(R.string.save_button, new MenuAddDialogFragment.Adder())
                 .setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        MenuEditDialogFragment.this.getDialog().cancel();
+                        MenuAddDialogFragment.this.getDialog().cancel();
                     }
                 });
 
         name_textview = view.findViewById(R.id.menu_name_input);
         price_textview = view.findViewById(R.id.menu_price_input);
 
-        name_textview.setText(name);
-        price_textview.setText(price);
-
         // Create the AlertDialog object and return it
         return builder.create();
     }
 
+
     public interface Listener{
-        void onEdit(Menu menu);
+        void onAdd(Menu new_menu);
     }
 
-    public class Editer implements DialogInterface.OnClickListener{
+    public class Adder implements DialogInterface.OnClickListener{
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            Menu menu = new Menu(id, name_textview.getText().toString(), Float.parseFloat(price_textview.getText().toString()));
-            callback.onEdit(menu);
+            Menu new_menu = new Menu(0, name_textview.getText().toString(), Float.parseFloat(price_textview.getText().toString()));
+            callback.onAdd(new_menu);
         }
     }
-
 }

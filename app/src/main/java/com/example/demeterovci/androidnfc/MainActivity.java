@@ -29,7 +29,7 @@ import java.util.List;
  * @todo - niesu vypisy ci sa podarilo alebo nie. Ani osetrenia. Ak sa zadaju zle udaje, spadne appka
  * @note - strasne pomaly ide ta appka, asi sa niekde vytvara strasne vela instancii alebo tak - neviem ci moja chyba. Singleton na DB je spraveny
  */
-public class MainActivity extends AppCompatActivity implements Listener, MenuEditDialogFragment.Listener{
+public class MainActivity extends AppCompatActivity implements Listener, MenuEditDialogFragment.Listener, MenuAddDialogFragment.Listener{
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private NfcAdapter mNfcAdapter;
@@ -75,14 +75,20 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
     }
 
     @Override
-    public void onEdit(Integer id, String name, Float price) {
-        Menu m = db.getMenuById(id);
-        m.setName(name);
-        m.setCost(price);
+    public void onEdit(Menu menu) {
+        db.updateMenu(menu);
+        myAdapter.edit(selPos, menu);
+    }
 
-        db.updateMenu(m);
+    @Override
+    public void onAdd(Menu new_menu) {
+        db.addMenu(new_menu);
+        List<Menu> menus = db.getMenus();
+        myAdapter.add(menus.get(menus.size()-1));
+    }
 
-        myAdapter.edit(selPos, m);
+    public void addMenu(View view) {
+        showAddDialog();
     }
 
     private class MyAdapterListener implements MyAdapter.Listener{
@@ -101,17 +107,9 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         public void onEdit(Integer id, Integer selectedPosition) {
             Log.d("myTag", "on edit listener");
             selPos = selectedPosition;
-            showDialog(id);
+            showEditDialog(id);
         }
     }
-
-   /* private class MenuEditDialogListener implements MenuEditDialogFragment.Listener{
-        @Override
-        public void onEdit(Integer id, String name, Float price) {
-
-
-        }
-    }*/
 
 
     @Override
@@ -121,34 +119,7 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         return true;
     }
 
-    /**
-     * OnClick callback - show customers
-     * @param view
-     */
-    public void showCustomerList(View view){
-        Intent intent = new Intent(this, CustomerListActivity.class);
-        startActivity(intent);
-    }
-
-    /**
-     * OnClick callback - show menus
-     * @param view
-     */
-    public void showMenuList(View view){
-        Intent intent = new Intent(this, MenuListActivity.class);
-        startActivity(intent);
-    }
-
-    /**
-     * OnClick callback - Add menu
-     * @param view
-     */
-    public void showMenuAdd(View view){
-        Intent intent = new Intent(this, MenuEditActivity.class);
-        startActivity(intent);
-    }
-
-    void showDialog(Integer id) {
+    void showEditDialog(Integer id) {
         // DialogFragment.show() will take care of adding the fragment
         // in a transaction.  We also want to remove any currently showing
         // dialog, so make our own transaction and take care of that here.
@@ -179,6 +150,19 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         name_textview.setText(tempmenu.getName());
         price_textview.setText(tempmenu.getCost() + "");*/
 
+    }
+
+    void showAddDialog(){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("add_dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = new MenuAddDialogFragment();
+        newFragment.show(ft,"add_dialog");
     }
 
     @Override

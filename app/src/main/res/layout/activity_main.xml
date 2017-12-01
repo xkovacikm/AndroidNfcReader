@@ -97,6 +97,7 @@
         app:backgroundTint="@color/colorAccent"
         app:layout_anchor="@id/viewA"
         app:layout_anchorGravity="bottom|right|end"
+        android:onClick="addMenu"
         />
 
 
