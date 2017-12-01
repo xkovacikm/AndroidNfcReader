@@ -50,6 +50,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, int position) {
         Log.i(TAG, "onBindViewHolder: ");
         holder.textView.setText(data.get(position).getName());
+        holder.priceView.setText(String.format("%.2f",data.get(position).getCost()) + "€");
     }
 
     @Override
@@ -60,9 +61,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView textView;
+        private TextView priceView;
         public ViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.item_text);
+            priceView = itemView.findViewById(R.id.item_price);
             itemView.setOnClickListener(new SelectSender());
             itemView.findViewById(R.id.remove_item).setOnClickListener(new Deleter());
             itemView.findViewById(R.id.edit_item).setOnClickListener(new Editer());

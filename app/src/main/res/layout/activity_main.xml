@@ -1,15 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
+    
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/viewA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorGrayForCard"
+            android:orientation="horizontal"
+
+            >
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/my_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:elevation="4dp"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                />
+
+            <TextView
+                android:id="@+id/cardNummeroTextLabel"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="24dp"
+                android:paddingLeft="16dp"
+                android:text="@string/card_hint_message"
+                android:textSize="18sp"
+                android:layout_below="@id/my_toolbar"/>
+
+            <TextView
+                android:id="@+id/cardNummeroText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/cardNummeroTextLabel"
+                android:layout_alignBaseline="@+id/cardNummeroTextLabel"
+                android:textSize="18sp"
+                android:text="156465465455"/>
+
+            <TextView
+                android:id="@+id/creditTextLabel"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingLeft="16dp"
+                android:paddingBottom="24dp"
+                android:layout_below="@id/cardNummeroTextLabel"
+                android:text="@string/credit_hint_message"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/creditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/creditTextLabel"
+                android:layout_alignBaseline="@+id/creditTextLabel"
+                android:textSize="18sp"
+                android:text="35€"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/viewB"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_below="@id/creditTextLabel" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_add_black_24dp"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_anchor="@id/viewA"
+        app:layout_anchorGravity="bottom|right|end"
         />
+
+
 
     <!--Button
         android:id="@+id/CustomerList"
@@ -37,50 +127,8 @@
         android:onClick="showMenuAdd"
         /-->
 
-    <TextView
-        android:id="@+id/cardNummeroTextLabel"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:paddingLeft="10dp"
-        android:text="@string/card_hint_message"
-        android:textSize="18sp"
-        android:layout_below="@id/my_toolbar"/>
 
-    <TextView
-        android:id="@+id/cardNummeroText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/cardNummeroTextLabel"
-        android:layout_alignBaseline="@+id/cardNummeroTextLabel"
-        android:textSize="18sp"
-        android:text="156465465455"/>
 
-    <TextView
-        android:id="@+id/creditTextLabel"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingLeft="10dp"
-        android:layout_below="@id/cardNummeroTextLabel"
-        android:text="@string/credit_hint_message"
-        android:textSize="18sp"/>
 
-    <TextView
-        android:id="@+id/creditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/creditTextLabel"
-        android:layout_alignBaseline="@+id/creditTextLabel"
-        android:textSize="18sp"
-        android:text="35€"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:layout_below="@id/creditTextLabel">
-
-    </android.support.v7.widget.RecyclerView>
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
