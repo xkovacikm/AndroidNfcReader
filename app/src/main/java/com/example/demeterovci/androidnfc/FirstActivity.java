@@ -48,8 +48,6 @@ public class FirstActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
-        //Log.d(TAG, "onNewIntent: "+intent.getAction());
-
         if(tag != null) {
             Toast.makeText(this, getString(R.string.message_tag_detected), Toast.LENGTH_SHORT).show();
             String id_card = bytearray2intarray(intent.getByteArrayExtra(NfcAdapter.EXTRA_ID));
@@ -58,7 +56,6 @@ public class FirstActivity extends AppCompatActivity {
                 Customer customer = this.db.getCustomerByCardId(id_card);
 
                 if(customer.getCard_id() != null){
-                    /* @todo Vyber menu alebo editacia alebo vyber menu? Neviem aky chceme flow appky */
                     Intent showOffer = new Intent(this, MainActivity.class);
 
                     showOffer.putExtra("id_card", id_card);
@@ -73,7 +70,7 @@ public class FirstActivity extends AppCompatActivity {
                 }
             }
             else{
-                Toast.makeText(this, getString(R.string.empty_card_number), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.credit_deposit_error), Toast.LENGTH_SHORT).show();
             }
         }
     }

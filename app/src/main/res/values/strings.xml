@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Bavanier</string>
     <string name="message_tag_detected">Prečítaná karta</string>
-    <string name="empty_card_number">Nečitateľné číslo karty, skúste znova!</string>
+    <string name="credit_deposit_error">Zadaná neplatná hodnota, skúste znova!</string>
     <string name="deposit_hint_message">Vklad</string>
     <string name="card_hint_message">Číslo karty:</string>
     <string name="credit_hint_message">Výška kreditu:</string>
@@ -10,6 +10,7 @@
     <string name="title_activity_menu">MenuActivity</string>
     <string name="add_credit">Dobiť kredit</string>
     <string name="logout">Odhlásiť sa</string>
+    <string name="onlogout">Boli ste odhlásený</string>
 
 
     <string name="menu_add_dialog_title">Pridať menu</string>
@@ -18,8 +19,5 @@
     <string name="menu_price">Cena</string>
     <string name="cancel_button">Zrušiť</string>
     <string name="save_button">Uložiť</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="nfc_card_description">nfc_card</string>
 </resources>
