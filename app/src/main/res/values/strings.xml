@@ -12,12 +12,16 @@
     <string name="logout">Odhlásiť sa</string>
     <string name="onlogout">Boli ste odhlásený</string>
 
-
+    <string name="menu_buy_dialog_title">Kúpiť</string>
     <string name="menu_add_dialog_title">Pridať menu</string>
     <string name="menu_edit_dialog_title">Upraviť menu</string>
     <string name="menu_name">Názov</string>
     <string name="menu_price">Cena</string>
     <string name="cancel_button">Zrušiť</string>
     <string name="save_button">Uložiť</string>
+    <string name="buy_button">Kúpiť</string>
     <string name="nfc_card_description">nfc_card</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
