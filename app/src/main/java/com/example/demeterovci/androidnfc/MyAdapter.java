@@ -33,6 +33,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         notifyItemChanged(position);
     }
 
+    public void delete(Integer position){
+        int mypos = position;
+        data.remove(mypos);
+        Log.i("fungus", position+"");
+        notifyItemRemoved(position);
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.i(TAG, "onCreateViewHolder");
@@ -55,7 +62,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
     public interface Listener{
         void onSelected(Integer string);
-        void onDelete(Integer string);
+        void onDelete(Integer string, Integer selectedPosition);
         void onEdit(Integer id, Integer selectedPosition);
     }
 
@@ -78,7 +85,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 selectedPosition = getLayoutPosition();
                 listener.onSelected(data.get(selectedPosition).getId());
                 Log.i(TAG, "selected: " + data.get(selectedPosition));
-
             }
         }
 
@@ -89,9 +95,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 if(selectedPosition < 0 )
                     return;
                 Log.i(TAG, "delete: " + data.get(selectedPosition));
-                listener.onDelete(data.get(selectedPosition).getId());
-                data.remove(selectedPosition);
-                notifyItemRemoved(selectedPosition);
+                listener.onDelete(data.get(selectedPosition).getId(), selectedPosition);
             }
         }
 

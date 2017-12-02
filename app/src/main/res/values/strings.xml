@@ -11,6 +11,10 @@
     <string name="add_credit">Dobiť kredit</string>
     <string name="logout">Odhlásiť sa</string>
     <string name="onlogout">Boli ste odhlásený</string>
+    <string name="logout_confirm">Odhlásiť sa?</string>
+    <string name="delete_confirm">Vymazať položku?</string>
+    <string name="yes">Áno</string>
+    <string name="no">Nie</string>
 
     <string name="menu_buy_dialog_title">Kúpiť</string>
     <string name="menu_add_dialog_title">Pridať menu</string>

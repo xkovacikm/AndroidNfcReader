@@ -1,8 +1,6 @@
 package com.example.demeterovci.androidnfc;
 
 
-
-
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -19,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.demeterovci.androidnfc.db.Connection;
 import com.example.demeterovci.androidnfc.db.Customer;
@@ -28,7 +25,7 @@ import com.example.demeterovci.androidnfc.db.Menu;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements Listener, MenuEditDialogFragment.Listener, MenuAddDialogFragment.Listener{
+public class MainActivity extends AppCompatActivity implements Listener, MenuEditDialogFragment.Listener, MenuAddDialogFragment.Listener, DeleteConfirmDialogFragment.Listener{
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private NfcAdapter mNfcAdapter;
@@ -86,6 +83,15 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         myAdapter.add(menus.get(menus.size()-1));
     }
 
+    @Override
+    public void onDelete(Integer dbID, boolean d) {
+        if(d){
+            Menu menu = db.getMenuById(dbID);
+            db.deleteMenu(menu);
+            myAdapter.delete(selPos);
+        }
+    }
+
     public void addMenu(View view) {
         showAddDialog();
     }
@@ -119,15 +125,6 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         DialogFragment newFragment = new MenuEditDialogFragment();
         newFragment.setArguments(bundle);
         newFragment.show(ft,"dialog");
-
-       /* newFragment.getDialog().findViewById(R.id.menu_name_input);
-
-        TextView name_textview = newFragment.getDialog().findViewById(R.id.menu_name_input);
-        TextView price_textview = newFragment.getDialog().findViewById(R.id.menu_price_input);
-
-        name_textview.setText(tempmenu.getName());
-        price_textview.setText(tempmenu.getCost() + "");*/
-
     }
 
     void showAddDialog(){
@@ -141,6 +138,23 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         // Create and show the dialog.
         DialogFragment newFragment = new MenuAddDialogFragment();
         newFragment.show(ft,"add_dialog");
+    }
+
+    void showDeleteConfirmDialog(Integer dbID){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("delete_confirm_dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", dbID);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = new DeleteConfirmDialogFragment();
+        newFragment.setArguments(bundle);
+        newFragment.show(ft,"delete_confirm_dialog");
     }
 
     @Override
@@ -158,11 +172,17 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
     }
 
     public void logout(MenuItem item) {
-        Toast.makeText(this, getString(R.string.onlogout), Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(MainActivity.this, FirstActivity.class );
-        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
-        this.startActivity( intent );
-        finish();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = new LogoutConfirmDialogFragment();
+        newFragment.show(ft,"dialog");
     }
 
     private class MyAdapterListener implements MyAdapter.Listener{
@@ -172,9 +192,9 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         }
 
         @Override
-        public void onDelete(Integer data) {
-            Menu menu = db.getMenuById(data);
-            db.deleteMenu(menu);
+        public void onDelete(Integer dbID, Integer selectedPosition) {
+            selPos = selectedPosition;
+            showDeleteConfirmDialog(dbID);
         }
 
         @Override
@@ -184,5 +204,5 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
             showEditDialog(id);
         }
     }
-
 }
+

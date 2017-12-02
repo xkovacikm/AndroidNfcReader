@@ -81,7 +81,18 @@ public class MenuEditDialogFragment extends DialogFragment {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            Menu menu = new Menu(id, name_textview.getText().toString(), Float.parseFloat(price_textview.getText().toString()));
+            String jedlo_name = name_textview.getText().toString();
+            String jedlo_price = price_textview.getText().toString();
+
+            if(jedlo_name.isEmpty()){
+                jedlo_name = "jedlo";
+            }
+
+            if(jedlo_price.isEmpty()){
+                jedlo_price = "0";
+            }
+
+            Menu menu = new Menu(id, jedlo_name, Float.parseFloat(jedlo_price));
             callback.onEdit(menu);
         }
     }
