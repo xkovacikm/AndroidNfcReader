@@ -10,22 +10,17 @@ import android.widget.TextView;
 import com.example.demeterovci.androidnfc.db.Menu;
 
 import java.util.List;
+import java.util.Locale;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
-    private List<Menu> data;
     private static final String TAG = "TAG (adapter)";
+    private List<Menu> data;
     private Listener listener;
     private int selectedPosition;
 
     public MyAdapter(Listener listener, List<Menu> jedla) {
         this.listener = listener;
         this.data = jedla;
-    }
-
-    public interface Listener{
-        void onSelected(Integer string);
-        void onDelete(Integer string);
-        void onEdit(Integer id, Integer selectedPosition);
     }
 
     public void add(Menu menu){
@@ -50,12 +45,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     public void onBindViewHolder(ViewHolder holder, int position) {
         Log.i(TAG, "onBindViewHolder: ");
         holder.textView.setText(data.get(position).getName());
-        holder.priceView.setText(String.format("%.2f",data.get(position).getCost()) + "€");
+        holder.priceView.setText(String.format(Locale.US, "%.2f", data.get(position).getCost()) + "€");
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public interface Listener{
+        void onSelected(Integer string);
+        void onDelete(Integer string);
+        void onEdit(Integer id, Integer selectedPosition);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

@@ -15,20 +15,19 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.demeterovci.androidnfc.db.Connection;
 import com.example.demeterovci.androidnfc.db.Customer;
 import com.example.demeterovci.androidnfc.db.Menu;
 
 import java.util.List;
+import java.util.Locale;
 
-/**
- * @todo - niesu vypisy ci sa podarilo alebo nie. Ani osetrenia. Ak sa zadaju zle udaje, spadne appka
- * @note - strasne pomaly ide ta appka, asi sa niekde vytvara strasne vela instancii alebo tak - neviem ci moja chyba. Singleton na DB je spraveny
- */
 public class MainActivity extends AppCompatActivity implements Listener, MenuEditDialogFragment.Listener, MenuAddDialogFragment.Listener{
 
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -43,8 +42,8 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar myToolbar = findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
         String id_card = intent.getStringExtra("id_card");
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         TextView creditText = findViewById(R.id.creditText);
 
         cardNummeroText.setText(customer.getCard_id());
-        creditText.setText(customer.getMoney() + "€");
+        creditText.setText(String.format(Locale.US,"%.2f", customer.getMoney()) + "€");
 
         //db.addMenu(new Menu(1, "Dobrota od mamky", 1.30));
         //foodList = findViewById(R.id.foodList);
@@ -90,27 +89,6 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
     public void addMenu(View view) {
         showAddDialog();
     }
-
-    private class MyAdapterListener implements MyAdapter.Listener{
-        @Override
-        public void onSelected(Integer data) {
-
-        }
-
-        @Override
-        public void onDelete(Integer data) {
-            Menu menu = db.getMenuById(data);
-            db.deleteMenu(menu);
-        }
-
-        @Override
-        public void onEdit(Integer id, Integer selectedPosition) {
-            Log.d("myTag", "on edit listener");
-            selPos = selectedPosition;
-            showEditDialog(id);
-        }
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
@@ -173,6 +151,38 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
     @Override
     public void onDialogDismissed() {
 
+    }
+
+    public void addCredit(MenuItem item) {
+        //todo: make add credit function
+    }
+
+    public void logout(MenuItem item) {
+        Toast.makeText(this, getString(R.string.onlogout), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this, FirstActivity.class );
+        intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
+        this.startActivity( intent );
+        finish();
+    }
+
+    private class MyAdapterListener implements MyAdapter.Listener{
+        @Override
+        public void onSelected(Integer data) {
+
+        }
+
+        @Override
+        public void onDelete(Integer data) {
+            Menu menu = db.getMenuById(data);
+            db.deleteMenu(menu);
+        }
+
+        @Override
+        public void onEdit(Integer id, Integer selectedPosition) {
+            Log.d("myTag", "on edit listener");
+            selPos = selectedPosition;
+            showEditDialog(id);
+        }
     }
 
 }
