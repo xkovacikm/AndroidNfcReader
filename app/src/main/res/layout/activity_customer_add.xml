@@ -19,13 +19,13 @@ tools:context="com.example.demeterovci.androidnfc.CustomerAddActivity">
         android:hint="@string/card_hint_message"/>
 
     <TextView
-        android:id="@+id/card_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/card_number_hint"
-        android:layout_marginLeft="4dp"
-        android:textSize="18sp"
-        />
+    android:id="@+id/card_number"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/card_number_hint"
+    android:layout_marginLeft="4dp"
+    android:textSize="18sp"
+    />
     <EditText
         android:id="@+id/deposit"
         android:layout_width="match_parent"
