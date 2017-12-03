@@ -25,12 +25,7 @@
         <activity android:name=".CustomerListActivity" />
         <activity android:name=".CustomerAddActivity" />
         <activity android:name=".CustomerEditActivity" />
-        <activity android:name=".FirstActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".FirstActivity" />
         <activity
             android:name=".SplashScreen"
             android:theme="@android:style/Theme.NoTitleBar">
