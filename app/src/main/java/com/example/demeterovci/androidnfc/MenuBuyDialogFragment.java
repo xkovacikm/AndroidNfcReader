@@ -53,7 +53,7 @@ public class MenuBuyDialogFragment extends DialogFragment {
                 });
 
         name_textview = view.findViewById(R.id.menu_name_textview);
-        price_textview = view.findViewById(R.id.menu_name_textview);
+        price_textview = view.findViewById(R.id.menu_price_textview);
 
         name_textview.setText(name);
         price_textview.setText(price + "€");

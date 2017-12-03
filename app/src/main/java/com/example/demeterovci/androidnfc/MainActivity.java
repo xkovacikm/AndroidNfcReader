@@ -25,7 +25,7 @@ import com.example.demeterovci.androidnfc.db.Menu;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements Listener, MenuEditDialogFragment.Listener, MenuAddDialogFragment.Listener, DeleteConfirmDialogFragment.Listener{
+public class MainActivity extends AppCompatActivity implements Listener, MenuEditDialogFragment.Listener, MenuAddDialogFragment.Listener, DeleteConfirmDialogFragment.Listener, MenuBuyDialogFragment.Listener{
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private NfcAdapter mNfcAdapter;
@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
     private RecyclerView recyclerView;
     private MyAdapter myAdapter;
     private Integer selPos;
+    private Customer customer;
+    private TextView creditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +46,10 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
 
         Intent intent = getIntent();
         String id_card = intent.getStringExtra("id_card");
-        Customer customer = db.getCustomerByCardId(id_card);
+        customer = db.getCustomerByCardId(id_card);
 
         TextView cardNummeroText = findViewById(R.id.cardNummeroText);
-        TextView creditText = findViewById(R.id.creditText);
+        creditText = findViewById(R.id.creditText);
 
         cardNummeroText.setText(customer.getCard_id());
         creditText.setText(String.format(Locale.US,"%.2f", customer.getMoney()) + "€");
@@ -157,6 +159,27 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         newFragment.show(ft,"delete_confirm_dialog");
     }
 
+    void showBuyDialog(Integer id){
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("buy_dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        Menu tempmenu = db.getMenuById(id);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("name", tempmenu.getName());
+        bundle.putString("price", tempmenu.getCost() + "");
+        //bundle.putInt("id", tempmenu.getId());
+
+        // Create and show the dialog.
+        DialogFragment newFragment = new MenuBuyDialogFragment();
+        newFragment.setArguments(bundle);
+        newFragment.show(ft,"buy_dialog");
+    }
+
     @Override
     public void onDialogDisplayed() {
 
@@ -185,16 +208,24 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         newFragment.show(ft,"dialog");
     }
 
+    @Override
+    public void onBuy(Float paid_price) {
+        customer.setMoney(customer.getMoney() - paid_price);
+        db.updateCustomer(customer);
+        creditText.setText(String.format(Locale.US,"%.2f", customer.getMoney()) + "€");
+    }
+
     private class MyAdapterListener implements MyAdapter.Listener{
         @Override
-        public void onSelected(Integer data) {
-
+        public void onSelected(Integer id) {
+            showBuyDialog(id);
         }
 
         @Override
         public void onDelete(Integer dbID, Integer selectedPosition) {
             selPos = selectedPosition;
             showDeleteConfirmDialog(dbID);
+
         }
 
         @Override
