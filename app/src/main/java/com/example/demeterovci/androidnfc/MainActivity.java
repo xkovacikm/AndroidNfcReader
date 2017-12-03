@@ -4,6 +4,7 @@ package com.example.demeterovci.androidnfc;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
     private TextView creditText;
 
     private boolean admin;
+
+    private final int delayTime = 10000;
+    private Handler myHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -276,10 +280,28 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         Toast.makeText(this, getString(R.string.onrecharge), Toast.LENGTH_SHORT).show();
     }
 
+    //Closes activity after 10 seconds of inactivity
+    public void onUserInteraction(){
+        myHandler.removeCallbacks(closeControls);
+        myHandler.postDelayed(closeControls, delayTime);
+    }
+
+    private Runnable closeControls = new Runnable() {
+        public void run() {
+            finish();
+        }
+    };
+
     private class MyAdapterListener implements MyAdapter.Listener{
         @Override
         public void onSelected(Integer id) {
-            showBuyDialog(id);
+
+            if(db.getMenuById(id).getCost() <= customer.getMoney()) {
+                showBuyDialog(id);
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "Nízky kredit na účte!", Toast.LENGTH_SHORT).show();
+            }
         }
 
         @Override

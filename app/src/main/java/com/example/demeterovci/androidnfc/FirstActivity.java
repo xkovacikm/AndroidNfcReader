@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -94,7 +95,11 @@ public class FirstActivity extends AppCompatActivity {
 
     private void initNFC(){
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (mNfcAdapter == null || !mNfcAdapter.isEnabled()) {
+            Toast.makeText(this, "Zapnite si prosím NFC", Toast.LENGTH_SHORT).show();
+        }
     }
+
 
     String ByteArrayToHexString(byte [] inarray)
     {
