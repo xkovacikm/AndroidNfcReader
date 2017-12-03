@@ -17,10 +17,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     private List<Menu> data;
     private Listener listener;
     private int selectedPosition;
+    private boolean admin;
 
-    public MyAdapter(Listener listener, List<Menu> jedla) {
+    public MyAdapter(Listener listener, List<Menu> jedla, boolean admin) {
         this.listener = listener;
         this.data = jedla;
+        this.admin = admin;
     }
 
     public void add(Menu menu){
@@ -75,8 +77,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             textView = itemView.findViewById(R.id.item_text);
             priceView = itemView.findViewById(R.id.item_price);
             itemView.setOnClickListener(new SelectSender());
-            itemView.findViewById(R.id.remove_item).setOnClickListener(new Deleter());
-            itemView.findViewById(R.id.edit_item).setOnClickListener(new Editer());
+            if(admin){
+                itemView.findViewById(R.id.remove_item).setOnClickListener(new Deleter());
+                itemView.findViewById(R.id.edit_item).setOnClickListener(new Editer());
+            }
+            else{
+                itemView.findViewById(R.id.remove_item).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.edit_item).setVisibility(View.INVISIBLE);
+            }
+
+
+
         }
 
         private class SelectSender implements View.OnClickListener{

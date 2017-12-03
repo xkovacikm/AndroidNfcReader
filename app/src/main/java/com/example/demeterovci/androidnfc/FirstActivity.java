@@ -20,12 +20,15 @@ public class FirstActivity extends AppCompatActivity {
     private Connection db = new Connection(this);
 
 
+    private String AdminCardID = "132456789";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
-        createAndmin();
+        createAdmin("0");
+        createAdmin(AdminCardID);
         initNFC();
     }
 
@@ -59,6 +62,8 @@ public class FirstActivity extends AppCompatActivity {
                     Intent showOffer = new Intent(this, MainActivity.class);
 
                     showOffer.putExtra("id_card", id_card);
+                    if(id_card == AdminCardID)
+                        showOffer.putExtra("is_admin", true);
                     startActivity(showOffer);
                 }
                 else{
@@ -75,11 +80,12 @@ public class FirstActivity extends AppCompatActivity {
         }
     }
 
-    private void createAndmin(){
-        if(db.getCustomers().size() == 0){
+    private void createAdmin(String card_id){
+        Customer cust = db.getCustomerByCardId(card_id);
+        if( cust.getCard_id() == null){
             Connection db = new Connection(this);
             Customer customer = new Customer();
-            customer.setCard_id("0");
+            customer.setCard_id(card_id);
             customer.setMoney(10000);
             db.addCustomer(customer);
         }
@@ -121,6 +127,7 @@ public class FirstActivity extends AppCompatActivity {
         Intent showOffer = new Intent(this, MainActivity.class);
 
         showOffer.putExtra("id_card", "0");
+        showOffer.putExtra("is_admin", true);
         startActivity(showOffer);
     }
 }

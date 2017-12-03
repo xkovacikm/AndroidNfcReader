@@ -22,11 +22,9 @@
 >
         <activity android:name=".MainActivity"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".MenuEditActivity" />
         <activity android:name=".CustomerListActivity" />
         <activity android:name=".CustomerAddActivity" />
         <activity android:name=".CustomerEditActivity" />
-        <activity android:name=".MenuListActivity" />
         <activity android:name=".FirstActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

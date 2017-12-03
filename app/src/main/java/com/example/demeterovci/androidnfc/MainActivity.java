@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.demeterovci.androidnfc.db.Connection;
 import com.example.demeterovci.androidnfc.db.Customer;
@@ -25,7 +26,7 @@ import com.example.demeterovci.androidnfc.db.Menu;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements Listener, MenuEditDialogFragment.Listener, MenuAddDialogFragment.Listener, DeleteConfirmDialogFragment.Listener, MenuBuyDialogFragment.Listener{
+public class MainActivity extends AppCompatActivity implements Listener, MenuEditDialogFragment.Listener, MenuAddDialogFragment.Listener, DeleteConfirmDialogFragment.Listener, MenuBuyDialogFragment.Listener, CreditAddDialogFragment.Listener{
 
     public static final String TAG = MainActivity.class.getSimpleName();
     private NfcAdapter mNfcAdapter;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
     private Customer customer;
     private TextView creditText;
 
+    private boolean admin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,14 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
 
         Intent intent = getIntent();
         String id_card = intent.getStringExtra("id_card");
+        admin = intent.getBooleanExtra("is_admin", false);
+        if(!admin)
+        {
+            findViewById(R.id.fab).setVisibility(View.INVISIBLE);
+            //toolbar.getRootView().findViewById(R.id.actoin_customer_list).setVisibility(View.INVISIBLE);
+        }
+
+
         customer = db.getCustomerByCardId(id_card);
 
         TextView cardNummeroText = findViewById(R.id.cardNummeroText);
@@ -58,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         //foodList = findViewById(R.id.foodList);
         List<Menu> jedla = db.getMenus();
 
-        myAdapter = new MyAdapter(new MyAdapterListener(), jedla);
+        myAdapter = new MyAdapter(new MyAdapterListener(), jedla, admin);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(myAdapter);
@@ -73,9 +84,26 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if(db.getCustomerByCardId(customer.getCard_id()).getCard_id() == null){
+            Toast.makeText(this, getString(R.string.onlogout), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, FirstActivity.class );
+            intent.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP );
+            startActivity( intent );
+            this.finish();
+        }
+        else{
+            customer = db.getCustomerByCardId(customer.getCard_id());
+            creditText.setText(String.format(Locale.US,"%.2f", customer.getMoney()) + "€");
+        }
+    }
+
+    @Override
     public void onEdit(Menu menu) {
         db.updateMenu(menu);
         myAdapter.edit(selPos, menu);
+        Toast.makeText(this, getString(R.string.onedit), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -83,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         db.addMenu(new_menu);
         List<Menu> menus = db.getMenus();
         myAdapter.add(menus.get(menus.size()-1));
+        Toast.makeText(this, getString(R.string.onadd), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -91,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
             Menu menu = db.getMenuById(dbID);
             db.deleteMenu(menu);
             myAdapter.delete(selPos);
+            Toast.makeText(this, getString(R.string.ondelete), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -102,6 +132,13 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_bar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(android.view.Menu menu) {
+        menu.findItem(R.id.actoin_customer_list).setVisible(admin);
+        super.onPrepareOptionsMenu(menu);
         return true;
     }
 
@@ -191,12 +228,22 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
     }
 
     public void addCredit(MenuItem item) {
-        //todo: make add credit function
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("add_credit_dialog");
+
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = new CreditAddDialogFragment();
+        newFragment.show(ft,"add_credit_dialog");
     }
 
     public void logout(MenuItem item) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("logout_dialog");
 
         if (prev != null) {
             ft.remove(prev);
@@ -205,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
 
         // Create and show the dialog.
         DialogFragment newFragment = new LogoutConfirmDialogFragment();
-        newFragment.show(ft,"dialog");
+        newFragment.show(ft,"logout_dialog");
     }
 
     @Override
@@ -213,6 +260,20 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
         customer.setMoney(customer.getMoney() - paid_price);
         db.updateCustomer(customer);
         creditText.setText(String.format(Locale.US,"%.2f", customer.getMoney()) + "€");
+        Toast.makeText(this, getString(R.string.onbuy), Toast.LENGTH_SHORT).show();
+    }
+
+    public void showCustomerList(MenuItem item) {
+        Intent intent = new Intent(this, CustomerListActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onRecharge(Float paid_price) {
+        customer.setMoney(customer.getMoney() + paid_price);
+        db.updateCustomer(customer);
+        creditText.setText(String.format(Locale.US,"%.2f", customer.getMoney()) + "€");
+        Toast.makeText(this, getString(R.string.onrecharge), Toast.LENGTH_SHORT).show();
     }
 
     private class MyAdapterListener implements MyAdapter.Listener{
