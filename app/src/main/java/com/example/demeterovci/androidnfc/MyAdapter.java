@@ -105,8 +105,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 selectedPosition = getLayoutPosition();
                 Log.i(TAG, "edit: " + data.get(selectedPosition));
                 listener.onEdit(data.get(selectedPosition).getId(), selectedPosition);
-                //data.remove(selectedPosition);
-                //notifyItemRemoved(selectedPosition);
             }
         }
     }
