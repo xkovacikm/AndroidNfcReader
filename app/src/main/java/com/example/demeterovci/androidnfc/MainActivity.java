@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements Listener, MenuEdi
 
     private boolean admin;
 
-    private final int delayTime = 10000;
+    private final int delayTime = 30000;
     private Handler myHandler = new Handler();
 
     @Override

@@ -4,7 +4,6 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
-import android.nfc.NfcManager;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,14 +20,14 @@ public class FirstActivity extends AppCompatActivity {
     private Connection db = new Connection(this);
 
 
-    private String AdminCardID = "132456789";
+    private String AdminCardID = "4791451021837128";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
-        createAdmin("0");
+        //createAdmin("0");
         createAdmin(AdminCardID);
         initNFC();
     }
@@ -63,7 +62,7 @@ public class FirstActivity extends AppCompatActivity {
                     Intent showOffer = new Intent(this, MainActivity.class);
 
                     showOffer.putExtra("id_card", id_card);
-                    if(id_card == AdminCardID)
+                    if(id_card.equals(AdminCardID) )
                         showOffer.putExtra("is_admin", true);
                     startActivity(showOffer);
                 }
